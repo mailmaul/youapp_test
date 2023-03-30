@@ -6,6 +6,7 @@ class AddinterestController extends GetxController {
 
   RxString savedValue = ''.obs;
   RxList<String> savedValues = <String>[].obs;
+  RxList<String> save = <String>[].obs;
 
   @override
   void onClose() {

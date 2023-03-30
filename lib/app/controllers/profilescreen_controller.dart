@@ -24,12 +24,13 @@ class ProfilescreenController extends GetxController {
   changeGender(String? selectedGender) {
     switch (selectedGender) {
       case 'Male':
-        Get.updateLocale(Locale('en_US'));
+        Get.updateLocale(const Locale('en_US'));
+        isTapGender = 1.obs;
         Gender = 'Male';
         break;
       case 'Female':
         Gender = 'Female';
-        Get.updateLocale(Locale('en_US'));
+        Get.updateLocale(const Locale('en_US'));
         break;
     }
   }
@@ -38,8 +39,9 @@ class ProfilescreenController extends GetxController {
 
   var isTapCalender = true.obs;
 
-  final isTapProfile = true.obs;
+  RxInt isTapProfile = 0.obs;
   final isTapAbout = 0.obs;
+  RxInt isTapGender = 0.obs;
   final name = ''.obs;
   final height = ''.obs;
   final weight = ''.obs;
@@ -56,11 +58,6 @@ class ProfilescreenController extends GetxController {
     zodiac.value = GetStorage().read('zodiac') ?? '';
     birth.value = GetStorage().read('birth') ?? '';
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   @override
@@ -122,11 +119,10 @@ class ProfilescreenController extends GetxController {
     }
 
     if (pickedFile != null) {
+      isTapProfile = 1.obs;
       final oldFile = File(pickedFile.path);
       selectedImagePath = await oldFile.copy(newPath);
       selectedImagePath = File(selectedImagePath.path);
-      print(addimage);
-      print(selectedImagePath);
     } else {
       Get.snackbar('Error', 'No image selected',
           snackPosition: SnackPosition.BOTTOM,

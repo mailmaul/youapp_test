@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:youapp_test/app/ui/pages/profilescreen_page/profilescreen_page.dart';
 import '../../../controllers/addinterest_controller.dart';
 
 class AddinterestPage extends GetView<AddinterestController> {
@@ -28,50 +29,15 @@ class AddinterestPage extends GetView<AddinterestController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 18, top: 83),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        "Back",
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 83, right: 26),
-                  child: Row(
-                    children: [
-                      GradientText("Save",
-                          gradientType: GradientType.linear,
-                          gradientDirection: GradientDirection.ltr,
-                          colors: [
-                            Color.fromRGBO(171, 255, 253, 1),
-                            Color.fromRGBO(170, 218, 255, 1),
-                            Color.fromRGBO(69, 153, 219, 1),
-                          ])
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            const Header_Tab(),
             Padding(
               padding: const EdgeInsets.only(left: 35, top: 73),
               child: GradientText("Tell everyone about yourself",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ltr,
-                  colors: [
+                  colors: const [
                     Color.fromRGBO(148, 120, 62, 1),
                     Color.fromRGBO(243, 237, 166, 1),
                     Color.fromRGBO(248, 250, 229, 1),
@@ -81,68 +47,17 @@ class AddinterestPage extends GetView<AddinterestController> {
                     Color.fromRGBO(213, 190, 136, 1),
                   ]),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 35, top: 12),
+            const Padding(
+              padding: EdgeInsets.only(left: 35, top: 12),
               child: Text(
                 "What interest you?",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 24, top: 35, right: 27),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(217, 217, 217, 0.06),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                constraints:
-                    const BoxConstraints.tightFor(width: double.infinity),
-                child: Obx(
-                  () => Padding(
-                      padding: const EdgeInsets.only(
-                          left: 17, right: 27, top: 8, bottom: 10),
-                      child: Wrap(
-                        spacing: 4, // define the spacing between items
-                        runSpacing: 8.0, // define the spacing between rows
-                        children: List.generate(controller.savedValues.length,
-                            (index) {
-                          final value = controller.savedValues[index];
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(255, 255, 255, 0.1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            width: 77, // define the width of each item
-                            height: 31, // define the height of each item
-
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  value,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 12),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 12,
-                                  ),
-                                  onPressed: () {
-                                    controller.deleteValue(index);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
-                      )),
-                ),
-              ),
-            ),
+            InputInterest_Tab(controller: controller),
           ],
         ),
       ),
@@ -150,26 +65,149 @@ class AddinterestPage extends GetView<AddinterestController> {
   }
 }
 
-// Expanded(
-//                       child: TextFormField(
-//                         onFieldSubmitted: (value) {
-//                           controller.saveValue();
-//                         },
-//                         controller: controller.textEditingController,
-//                         // onChanged: (value) => _controller.name.value = value,
-//                         decoration: InputDecoration(
-//                           border: OutlineInputBorder(
-//                             borderRadius: BorderRadius.circular(15),
-//                           ),
-//                           enabledBorder: OutlineInputBorder(
-//                             borderSide: const BorderSide(
-//                               color: Colors.transparent,
-//                             ),
-//                             borderRadius: BorderRadius.circular(9),
-//                           ),
-//                           filled: true,
-//                           fillColor: const Color.fromRGBO(217, 217, 217, 0.06),
-//                         ),
-//                         style: const TextStyle(color: Colors.white),
-//                       ),
-//                     ),
+class InputInterest_Tab extends StatelessWidget {
+  const InputInterest_Tab({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final AddinterestController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, top: 35, right: 27),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(217, 217, 217, 0.06),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Obx(
+          () => Padding(
+              padding: const EdgeInsets.only(
+                  left: 17, right: 27, top: 8, bottom: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Wrap(
+                        spacing: 4, // define the spacing between items
+                        runSpacing: 8.0, // define the spacing between rows
+                        children: <Widget>[
+                          ...List.generate(
+                            controller.savedValues.length,
+                            (index) {
+                              final value = controller.savedValues[index];
+                              return Container(
+                                height: 31,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromRGBO(255, 255, 255, 0.1),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      value,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 12,
+                                      ),
+                                      onPressed: () {
+                                        controller.deleteValue(index);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          Container(
+                            width: 30,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.only(bottom: 15, left: 2)),
+                              onFieldSubmitted: (value) {
+                                controller.saveValue();
+                              },
+                              controller: controller.textEditingController,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                              textAlignVertical: TextAlignVertical.top,
+                            ),
+                          )
+                        ]),
+                  ),
+                ],
+              )),
+        ),
+      ),
+    );
+  }
+}
+
+class Header_Tab extends StatelessWidget {
+  const Header_Tab({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 18, top: 83),
+          child: GestureDetector(
+            onTap: () => Get.back(),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+                Text(
+                  "Back",
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 83, right: 26),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.to(ProfilescreenPage());
+                },
+                child: GradientText("Save",
+                    gradientType: GradientType.linear,
+                    gradientDirection: GradientDirection.ltr,
+                    colors: [
+                      Color.fromRGBO(171, 255, 253, 1),
+                      Color.fromRGBO(170, 218, 255, 1),
+                      Color.fromRGBO(69, 153, 219, 1),
+                    ]),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

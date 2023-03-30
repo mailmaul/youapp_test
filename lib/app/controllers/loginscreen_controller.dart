@@ -31,15 +31,18 @@ class LoginScreenController extends GetxController {
         // Login success
         final responseData = json.decode(response.body);
         // Do something with the response data
-        print(response.body);
-
-        Get.snackbar('Info', ('${responseData['message']}'),
-            backgroundColor: Colors.green, colorText: Colors.white);
-        Get.off(ProfilescreenPage());
+        if (responseData['message'] == "success") {
+          Get.snackbar('Login Succes', ('Welcome ${emailController.text}'),
+              backgroundColor: Colors.green, colorText: Colors.white);
+          Get.off(ProfilescreenPage());
+        } else {
+          Get.snackbar(
+              'Login Failed', 'Please fill in the email & password correctly',
+              backgroundColor: Colors.red, colorText: Colors.white);
+        }
       } else {
         // Login failed
-        final responseData = json.decode(response.body);
-        Get.snackbar('Login Failed', responseData['message']);
+        Get.snackbar('Login Failed', "Check your internet");
       }
     } catch (error) {
       Get.snackbar('Error', 'Something went wrong. Please try again later.');

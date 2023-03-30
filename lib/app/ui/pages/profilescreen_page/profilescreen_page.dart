@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:youapp_test/app/controllers/addinterest_controller.dart';
 import 'package:youapp_test/app/controllers/loginscreen_controller.dart';
+import 'package:youapp_test/app/ui/pages/addinterest_page/addinterest_page.dart';
+import 'package:youapp_test/app/ui/pages/loginscreen_page/loginscreen_page.dart';
 import '../../../controllers/profilescreen_controller.dart';
 
 class ProfilescreenPage extends GetView<ProfilescreenController> {
+  const ProfilescreenPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final ProfilescreenController profilecontroller =
@@ -14,6 +18,9 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
 
     final LoginScreenController logincontroller =
         Get.put(LoginScreenController());
+
+    final AddinterestController addinterestController =
+        Get.put(AddinterestController());
 
     var age = DateTime.now().year - controller.selectedDate.value.year;
 
@@ -32,200 +39,13 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: const [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "Back",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      logincontroller.emailController.text,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 26.76),
-                      child: Icon(
-                        Icons.more_horiz,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                  ],
-                ),
+                Header_Tab(logincontroller: logincontroller),
                 const SizedBox(height: 60),
-                Obx(
-                  () => profilecontroller.isTapProfile.value
-                      ? Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 190,
-                          decoration: BoxDecoration(
-                            color: const Color.fromRGBO(22, 35, 41, 1),
-                            border: Border.all(
-                              color: const Color.fromRGBO(
-                                  22, 35, 41, 1), //color of border
-                              width: 2, //width of border
-                            ),
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 10, right: 16),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Icon(
-                                      Icons.edit_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 17, left: 13),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    logincontroller.emailController.text,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 190,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: FileImage(
-                                    profilecontroller.selectedImagePath)),
-                            color: const Color.fromRGBO(22, 35, 41, 1),
-                            border: Border.all(
-                              color: const Color.fromRGBO(
-                                  22, 35, 41, 1), //color of border
-                              width: 2, //width of border
-                            ),
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 87, left: 13),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Obx(() {
-                                    if (controller.name.value.isEmpty) {
-                                      return Text(
-                                        "",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      );
-                                    } else {
-                                      return Text(
-                                        controller.name.value +
-                                            ', ' +
-                                            (age).toString(),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      );
-                                    }
-                                  }),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: 6, bottom: 12, left: 13),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    controller.Gender,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 13),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Color.fromRGBO(31, 35, 31, 1),
-                                          border: Border.all(
-                                            color: const Color.fromRGBO(31, 35,
-                                                31, 1), //color of border
-                                            width: 2, //width of border
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        width: 97,
-                                        height: 36,
-                                        child: Center(
-                                          child: Text(
-                                            controller.zodiac.value,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Color.fromRGBO(31, 35, 31, 1),
-                                          border: Border.all(
-                                            color: const Color.fromRGBO(31, 35,
-                                                31, 1), //color of border
-                                            width: 2, //width of border
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        width: 97,
-                                        height: 36,
-                                        child: Center(
-                                          child: Text(
-                                            controller.horos.value,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                Profile_Tab(
+                  profilecontroller: profilecontroller,
+                  logincontroller: logincontroller,
+                  controller: controller,
+                  age: age,
                 ),
                 const SizedBox(height: 24),
                 Obx(() {
@@ -319,10 +139,6 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                   GestureDetector(
                                     onTap: () {
                                       profilecontroller.isTapAbout.value = 2;
-                                      profilecontroller.isTapProfile.value =
-                                          false;
-
-                                      print(profilecontroller.isTapAbout);
                                     },
                                     child: const Text(
                                       "Save & Update",
@@ -568,7 +384,6 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                         onTap: () {
                                           profilecontroller.isTapAbout.value =
                                               1;
-                                          print(profilecontroller.isTapAbout);
                                         },
                                         child: const Icon(
                                           Icons.edit_outlined,
@@ -580,7 +395,8 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(bottom: 25, left: 27),
+                                padding:
+                                    const EdgeInsets.only(bottom: 25, left: 27),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -599,7 +415,7 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                     Row(
@@ -617,7 +433,7 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                     Row(
@@ -635,7 +451,7 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                     Row(
@@ -653,7 +469,7 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                     Row(
@@ -683,64 +499,336 @@ class ProfilescreenPage extends GetView<ProfilescreenController> {
                   }
                 }),
                 const SizedBox(height: 24),
-                Container(
-                  // color: const Color.fromRGBO(22, 35, 41, 1),
-                  width: MediaQuery.of(context).size.width,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(14, 25, 31, 1),
-                    border: Border.all(
-                      color:
-                          const Color.fromRGBO(14, 25, 31, 1), //color of border
-                      width: 2, //width of border
-                    ),
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Interest_Tab(addinterestController: addinterestController),
+              ],
+            ),
+          ),
+        )),
+      ),
+    );
+  }
+}
+
+class Header_Tab extends StatelessWidget {
+  const Header_Tab({
+    Key? key,
+    required this.logincontroller,
+  }) : super(key: key);
+
+  final LoginScreenController logincontroller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: () => Get.back(),
+          child: GestureDetector(
+            onTap: () => Get.to(LoginScreenPage()),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+                Text(
+                  "Back",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          logincontroller.emailController.text,
+          style: TextStyle(color: Colors.white, fontSize: 14),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(right: 26.76),
+          child: Icon(
+            Icons.more_horiz,
+            color: Colors.white,
+            size: 25,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Profile_Tab extends StatelessWidget {
+  const Profile_Tab({
+    Key? key,
+    required this.profilecontroller,
+    required this.logincontroller,
+    required this.controller,
+    required this.age,
+  }) : super(key: key);
+
+  final ProfilescreenController profilecontroller;
+  final LoginScreenController logincontroller;
+  final ProfilescreenController controller;
+
+  final int age;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (profilecontroller.isTapProfile.value == 0) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 190,
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(22, 35, 41, 1),
+            border: Border.all(
+              color: const Color.fromRGBO(22, 35, 41, 1), //color of border
+              width: 2, //width of border
+            ),
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 17, left: 13),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                logincontroller.emailController.text,
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+          ),
+        );
+      } else if (profilecontroller.isTapProfile.value == 1) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 190,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: FileImage(profilecontroller.selectedImagePath)),
+            color: const Color.fromRGBO(22, 35, 41, 1),
+            border: Border.all(
+              color: const Color.fromRGBO(22, 35, 41, 1), //color of border
+              width: 2, //width of border
+            ),
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 87, left: 13),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Obx(() {
+                    if (controller.name.value.isEmpty) {
+                      return Text(
+                        "",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      );
+                    } else {
+                      return Text(
+                        controller.name.value + ', ' + (age).toString(),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      );
+                    }
+                  }),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 6, bottom: 12, left: 13),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Obx(() {
+                      if (profilecontroller.isTapGender.value == 0) {
+                        return Text("",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 13));
+                      } else {
+                        return Text(controller.Gender,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 13));
+                      }
+                    })),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 13),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
                     children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, right: 16, left: 27),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                "Interest",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Icon(
-                                Icons.edit_outlined,
-                                color: Colors.white,
-                              ),
-                            ],
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(31, 35, 31, 1),
+                          border: Border.all(
+                            color: const Color.fromRGBO(
+                                31, 35, 31, 1), //color of border
+                            width: 2, //width of border
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        width: 97,
+                        height: 36,
+                        child: Center(
+                          child: Text(
+                            controller.zodiac.value,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.only(bottom: 23, left: 27, right: 57),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(31, 35, 31, 1),
+                          border: Border.all(
+                            color: const Color.fromRGBO(
+                                31, 35, 31, 1), //color of border
+                            width: 2, //width of border
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        width: 97,
+                        height: 36,
+                        child: Center(
                           child: Text(
-                            "Add in your interest to find a better match",
+                            controller.horos.value,
                             style: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 0.52),
-                                fontSize: 14),
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
+              ),
+            ],
+          ),
+        );
+      }
+      throw {Text("Error")};
+    });
+  }
+}
+
+class Interest_Tab extends StatelessWidget {
+  const Interest_Tab({
+    Key? key,
+    required this.addinterestController,
+  }) : super(key: key);
+
+  final AddinterestController addinterestController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(14, 25, 31, 1),
+        border: Border.all(
+          color: const Color.fromRGBO(14, 25, 31, 1), //color of border
+          width: 2, //width of border
+        ),
+        borderRadius: BorderRadius.circular(9),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 10, right: 16, left: 27, bottom: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Interest",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.to(AddinterestPage()),
+                    child: Icon(
+                      Icons.edit_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        )),
+          Obx(() {
+            if (addinterestController.savedValues.isEmpty) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 23, left: 27, right: 57),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Add in your your to help others know you better",
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 0.52),
+                        fontSize: 14),
+                  ),
+                ),
+              );
+            } else {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 23, left: 27, right: 57),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: 12, // define the spacing between items
+                    runSpacing: 12, // define the spacing between rows
+                    children: List.generate(
+                      addinterestController.savedValues.length,
+                      (index) {
+                        final value = addinterestController.savedValues[index];
+                        return Container(
+                          height: 31,
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(255, 255, 255, 0.1),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
+          })
+        ],
       ),
     );
   }

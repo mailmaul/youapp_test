@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youapp_test/app/data/provider/register_provider.dart';
 import 'package:youapp_test/app/ui/pages/profilescreen_page/profilescreen_page.dart';
-
-import 'package:http/http.dart' as http;
 
 class RegisterscreenController extends GetxController {
   var text = ''.obs; // state variable to hold the text entered by the user
@@ -19,8 +14,6 @@ class RegisterscreenController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   void register() {
     String email = emailController.text;
@@ -45,7 +38,6 @@ class RegisterscreenController extends GetxController {
           );
           Get.off(ProfilescreenPage());
         } else {
-          print(value.body);
           Get.snackbar(
             "Error",
             "Please try again",
