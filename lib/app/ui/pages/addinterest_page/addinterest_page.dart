@@ -132,21 +132,22 @@ class InputInterest_Tab extends StatelessWidget {
                               );
                             },
                           ),
-                          Container(
-                            width: 30,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding:
-                                      EdgeInsets.only(bottom: 15, left: 2)),
-                              onFieldSubmitted: (value) {
-                                controller.saveValue();
-                              },
-                              controller: controller.textEditingController,
-                              style: const TextStyle(
-                                color: Colors.white,
+                          IntrinsicWidth(
+                            child: Container(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding:
+                                        EdgeInsets.only(bottom: 15, left: 2)),
+                                onFieldSubmitted: (value) {
+                                  controller.saveValue();
+                                },
+                                controller: controller.textEditingController,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textAlignVertical: TextAlignVertical.top,
                               ),
-                              textAlignVertical: TextAlignVertical.top,
                             ),
                           )
                         ]),
